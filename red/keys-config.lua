@@ -157,21 +157,25 @@ function hotkeys:init(args)
 			args = { { self.mod,           }, "F2", function () redflat.service.keyboard.handler() end },
 			comment = "Window control mode"
 		},
+        {
+            args = { { self.mod,           }, "l", function() awful.util.spawn("gnome-screensaver-command -l") end },
+            comment = "Lock screen"
+        },
 		{ comment = "Window focus" },
 		{
-			args = { { self.mod,           }, "l", focus_switch_byd("right"), },
+			args = { { self.mod,           }, "h", focus_switch_byd("right"), },
 			comment = "Focus right client"
 		},
 		{
-			args = { { self.mod,           }, "j", focus_switch_byd("left"), },
+			args = { { self.mod,           }, "k", focus_switch_byd("left"), },
 			comment = "Focus left client"
 		},
 		{
-			args = { { self.mod,           }, "i", focus_switch_byd("up"), },
+			args = { { self.mod,           }, "u", focus_switch_byd("up"), },
 			comment = "Focus client above"
 		},
 		{
-			args = { { self.mod,           }, "k", focus_switch_byd("down"), },
+			args = { { self.mod,           }, "j", focus_switch_byd("down"), },
 			comment = "Focus client below"
 		},
 		{
@@ -214,11 +218,7 @@ function hotkeys:init(args)
 		},
 		{
 			args = { { self.mod            }, "r", function() redflat.float.apprunner:show() end },
-			comment = "Allication launcher"
-		},
-		{
-			args = { { self.mod, "Control" }, "i", function() redflat.widget.minitray:toggle() end },
-			comment = "Show minitray"
+			comment = "Apllication launcher"
 		},
 		{
 			args = { { self.mod            }, "e", function() exaile:show() end },
@@ -382,8 +382,16 @@ function hotkeys:init(args)
 			args = { { self.mod,           }, "F4", function (c) c:kill() end },
 			comment = "Kill focused client"
 		},
+        {
+			args = { { self.mod, "Shift"   }, "c", function (c) c:kill() end },
+			comment = "Kill focused client"
+		},
 		{
 			args = { { self.mod, "Control" }, "f", awful.client.floating.toggle },
+			comment = "Toggle client floating status"
+		},
+        {
+			args = { { self.mod, "Shift" }, "f", awful.client.floating.toggle },
 			comment = "Toggle client floating status"
 		},
 		{
@@ -455,7 +463,7 @@ function hotkeys:init(args)
 	-- client
 	self.mouse.client = awful.util.table.join(
 		awful.button({                     }, 1, function (c) client.focus = c; c:raise() end),
-		awful.button({                     }, 2, redflat.service.mouse.move),
+		awful.button({ self.mod            }, 1, redflat.service.mouse.move),
 		awful.button({ self.mod            }, 3, redflat.service.mouse.resize),
 		awful.button({                     }, 8, function(c) c:kill() end),
 		awful.button({ self.mod            }, 4, function (c) minimize_all_else(c) end),

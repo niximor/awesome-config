@@ -49,9 +49,10 @@ function titlebar:init(args)
 
 		-- Create titlebar
 		------------------------------------------------------------
-		local full_style =  { size = 28, icon = { gap = 0, size = 25, angle = 0.50 } }
+		local full_style =  { size = 16, icon = { gap = 0, size = 12, angle = 0.50 } }
 		local model = redflat.titlebar.model(c, { "floating", "sticky", "ontop" }, nil, full_style)
 		redflat.titlebar(c, model):set_widget(model.widget)
+        redflat.titlebar.toggle_view(c) -- Set to full
 
 		-- Mouse actions setup
 		------------------------------------------------------------

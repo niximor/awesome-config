@@ -57,7 +57,7 @@ end
 
 -- Environment
 -----------------------------------------------------------------------------------------------------------------------
-local theme_path = os.getenv("HOME") .. "/.config/awesome/themes/red"
+local theme_path = os.getenv("HOME") .. "/.config/awredflat/themes/red"
 beautiful.init(theme_path .. "/theme.lua")
 
 local terminal = "urxvt"
@@ -91,7 +91,7 @@ end
 
 -- Main menu configuration
 -----------------------------------------------------------------------------------------------------------------------
-local mymenu = require("red.menu-config") -- load file with menu configuration
+local mymenu = require("menu-config") -- load file with menu configuration
 
 local menu_icon_style = { custom_only = true, scalable_only = true }
 local menu_sep = { widget = separator.horizontal({ margin = { 3, 3, 5, 5 } }) }

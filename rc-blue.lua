@@ -58,10 +58,10 @@ end
 local theme_path = os.getenv("HOME") .. "/.config/awesome/themes/blue"
 beautiful.init(theme_path .. "/theme.lua")
 
-local terminal = "urxvt"
-local editor   = os.getenv("EDITOR") or "geany"
+local terminal = "terminator"
+local editor   = os.getenv("EDITOR") or "gedit"
 local editor_cmd = terminal .. " -e " .. editor
-local fm = "nemo"
+local fm = "thunar"
 local modkey = "Mod4"
 
 -- Layouts setup
@@ -70,9 +70,10 @@ local layouts = require("red.layout-config") -- load file with layouts configura
 
 -- Tags
 -----------------------------------------------------------------------------------------------------------------------
+local default_layout = 3
 local tags = {
-	names  = { "Main", "Full", "Edit", "Read", "Free" },
-	layout = { layouts[7], layouts[8], layouts[8], layouts[7], layouts[2] },
+	names  = { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+	layout = { layouts[default_layout], layouts[default_layout], layouts[default_layout], layouts[default_layout], layouts[default_layout], layouts[default_layout], layouts[default_layout], layouts[default_layout], layouts[default_layout] },
 }
 
 for s = 1, screen.count() do tags[s] = awful.tag(tags.names, s, tags.layout) end
@@ -89,9 +90,9 @@ end
 
 -- Main menu configuration
 -----------------------------------------------------------------------------------------------------------------------
-local mymenu = require("red.menu-config") -- load file with menu configuration
+local mymenu = require("menu") -- load file with menu configuration
 
-local menu_icon_style = { custom_only = true, scalable_only = true }
+local menu_icon_style = { custom_only = false, scalable_only = false }
 local menu_sep = { widget = separator.horizontal({ margin = { 3, 3, 5, 5 } }) }
 local menu_theme = { icon_margin = { 7, 10, 7, 7 }, auto_hotkey = true }
 
@@ -134,14 +135,12 @@ taglist.buttons = awful.util.table.join(
 --------------------------------------------------------------------------------
 local upgrades = {}
 upgrades.widget = redflat.widget.upgrades()
---[[
 upgrades.layout = wibox.layout.margin(upgrades.widget, unpack(pmargin.upgrades or {}))
 
 upgrades.widget:buttons(awful.util.table.join(
 	awful.button({}, 1, function () mainmenu:toggle()           end),
 	awful.button({}, 2, function () redflat.widget.upgrades:update() end)
 ))
---]]
 
 -- PA volume control
 -- also this widget used for exaile control
@@ -183,21 +182,6 @@ kbindicator.widget:buttons(awful.util.table.join(
 	awful.button({}, 3, function () awful.util.spawn_with_shell("sleep 0.1 && xdotool key 133+64+65") end),
 	awful.button({}, 4, function () redflat.widget.keyboard:toggle()      end),
 	awful.button({}, 5, function () redflat.widget.keyboard:toggle(true)  end)
-))
-
--- Mail
---------------------------------------------------------------------------------
-local mail_scripts      = { "mail1.py", "mail2.py" }
-local mail_scripts_path = "/home/vorron/Documents/scripts/"
-
-local mail = {}
-mail.widget = redflat.widget.mail({ path = mail_scripts_path, scripts = mail_scripts })
-mail.layout = wibox.layout.margin(mail.widget, unpack(pmargin.mail or {}))
-
--- buttons
-mail.widget:buttons(awful.util.table.join(
-	awful.button({ }, 1, function () awful.util.spawn_with_shell("claws-mail") end),
-	awful.button({ }, 2, function () redflat.widget.mail:update()                   end)
 ))
 
 -- Tasklist
@@ -269,7 +253,7 @@ monitor.widget.cpumem:buttons(awful.util.table.join(
 -- Tray widget
 --------------------------------------------------------------------------------
 local tray = {}
-tray.widget = redflat.widget.minitray({ timeout = 10 })
+tray.widget = wibox.widget.systray() -- redflat.widget.minitray({ timeout = 10 })
 tray.layout = wibox.layout.margin(tray.widget, unpack(pmargin.tray or {}))
 
 tray.widget:buttons(awful.util.table.join(
@@ -304,14 +288,14 @@ for s = 1, screen.count() do
 	tasklist[s].layout = wibox.layout.margin(tasklist[s].widget, unpack(tasklist.margin or {}))
 
 	-- Create the wibox
-	panel[s] = awful.wibox({ type = "normal", position = "bottom", screen = s , height = beautiful.panel_height or 50})
+	panel[s] = awful.wibox({ type = "normal", position = "top", screen = s , height = beautiful.panel_height or 50})
 
 	-- Widgets that are aligned to the left
 	local left_layout = wibox.layout.fixed.horizontal()
 	local left_elements = {
+        upgrades.layout, single_sep,
 		taglist[s].layout,   single_sep,
 		layoutbox[s].layout, single_sep,
-		--upgrades.layout,   single_sep,
 	}
 	for _, element in ipairs(left_elements) do
 		left_layout:add(element)
@@ -321,27 +305,35 @@ for s = 1, screen.count() do
 	local right_layout = wibox.layout.fixed.horizontal()
 	local right_elements = {
 		single_sep, kbindicator.layout,
-		single_sep, mail.layout,
 		single_sep, monitor.layout.net,
 		single_sep, monitor.layout.cpumem,
 		single_sep, volume.layout,
-		single_sep, tray.layout,
-		single_sep, monitor.layout.bat,
-		single_sep, textclock.layout
-	}
+		single_sep, monitor.layout.bat
+    }
+
+    if s == 1 then
+        table.insert(right_elements, single_sep)
+        table.insert(right_elements, tray.layout)
+    end
+
+    table.insert(right_elements, single_sep)
+    table.insert(right_elements, textclock.layout)
+
 	for _, element in ipairs(right_elements) do
-		right_layout:add(element)
+        if element ~= nil then
+    		right_layout:add(element)
+        end
 	end
 
 	-- Center widgets are aligned to the left
-	-- local middle_align = wibox.layout.align.horizontal()
-	-- middle_align:set_left(tasklist[s].layout)
+    local middle_align = wibox.layout.align.horizontal()
+	middle_align:set_left(tasklist[s].layout)
 
 	-- Now bring it all together (with the tasklist in the middle)
 	local layout = wibox.layout.align.horizontal()
 	layout:set_left(left_layout)
 	layout:set_middle(tasklist[s].layout)
-	--layout:set_middle(middle_align)
+	layout:set_middle(middle_align)
 	layout:set_right(right_layout)
 
 	panel[s]:set_widget(layout)
@@ -358,17 +350,11 @@ else
 	gears.wallpaper.set("#161616")
 end
 
--- Desktop widgets
------------------------------------------------------------------------------------------------------------------------
-local desktop = require("blue.desktop-config") -- load file with desktop widgets configuration
-
-desktop:init({ tpath = theme_path })
-
 -- Active screen edges
 -----------------------------------------------------------------------------------------------------------------------
-local edges = require("red.edges-config") -- load file with edges configuration
+-- local edges = require("red.edges-config") -- load file with edges configuration
 
-edges:init({ width = 1})
+-- edges:init({ width = 1})
 
 -- Key bindings
 -----------------------------------------------------------------------------------------------------------------------
@@ -401,6 +387,12 @@ local base_rule = {
 
 table.insert(custom_rules, 1, base_rule)
 awful.rules.rules = custom_rules
+
+-- Desktop widgets
+-----------------------------------------------------------------------------------------------------------------------
+-- local desktop = require("blue.desktop-config") -- load file with desktop widgets configuration
+
+-- desktop:init({ tpath = theme_path })
 
 -- Windows titlebar config
 -----------------------------------------------------------------------------------------------------------------------

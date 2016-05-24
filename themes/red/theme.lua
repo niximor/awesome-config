@@ -43,7 +43,7 @@ theme.border_marked = theme.color.main
 
 -- Common
 -----------------------------------------------------------------------------------------------------------------------
-theme.path = os.getenv("HOME") .. "/.config/awesome/themes/red"
+theme.path = os.getenv("HOME") .. "/.config/awredflat/themes/red"
 
 -- Main config
 --------------------------------------------------------------------------------

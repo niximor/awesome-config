@@ -42,30 +42,30 @@ theme.border_marked = theme.color.main
 
 -- Common
 -----------------------------------------------------------------------------------------------------------------------
-theme.path = os.getenv("HOME") .. "/.config/awesome/themes/blue"
+theme.path = os.getenv("HOME") .. "/.config/awredflat/themes/blue"
 
 -- Main config
 --------------------------------------------------------------------------------
 
 -- fonts
-theme.font        = "Play 14"      -- main theme font
-theme.font_title  = "Play bold 14" -- title font for widgets
+theme.font        = "Play 10"      -- main theme font
+theme.font_title  = "Play bold 12" -- title font for widgets
 theme.font_clock  = "Play bold 12" -- font for textclock widget
-theme.font_notify = "Play bold 16" -- font for notify widget
+theme.font_notify = "Play bold 10" -- font for notify widget
 
-theme.font_exaile_main = "Play bold 14" -- main font for exaile widget
-theme.font_exaile_time = "Play bold 16" -- time status font for exaile widget
+theme.font_exaile_main = "Play bold 12" -- main font for exaile widget
+theme.font_exaile_time = "Play bold 12" -- time status font for exaile widget
 
-theme.font_helper_title = "Play bold 16" -- hotkeys helper title font
+theme.font_helper_title = "Play bold 12" -- hotkeys helper title font
 
 -- cairo formated fonts
 theme.cf_appswitcher = { font = "Play", size = 22, face = 1 } -- application switcher font
-theme.cf_tag         = { font = "Play", size = 16, face = 1 } -- tag widget font
+theme.cf_tag         = { font = "Play", size = 12, face = 1 } -- tag widget font
 
 -- environment vars
-theme.panel_height        = 36 -- panel height
-theme.border_width        = 4  -- window border width
-theme.useless_gap_width   = 8  -- Lain useless gap
+theme.panel_height        = 22 -- panel height
+theme.border_width        = 2  -- window border width
+theme.useless_gap_width   = 0  -- Lain useless gap
 theme.global_border_width = 0  -- Lain global border gap
 
 -- grid layout prop
@@ -87,7 +87,7 @@ theme.icon = {
 -----------------------------------------------------------------------------------------------------------------------
 theme.desktop = { common = {} }
 
-theme.wallpaper = theme.path .. "/wallpaper/forwidgets.png"
+theme.wallpaper = "/usr/share/wallpaper/current.jpg"
 
 -- Common
 --------------------------------------------------------------------------------
@@ -253,10 +253,10 @@ theme.menu.color = {
 -- Titlebar
 -----------------------------------------------------------------------------------------------------------------------
 theme.titlebar = {
-	size          = 8,
+	size          = 1,
 	position      = "top",
-	font          = "Play Bold 14",
-	icon          = { size = 30, gap = 10 },
+	font          = "Play Bold 8",
+	icon          = { size = 12, gap = 6 },
 	border_margin = { 0, 0, 0, 4 },
 	--color         = theme.color
 	color         = { text = theme.color.text, main = theme.color.main, gray = theme.color.gray,
@@ -333,21 +333,21 @@ theme.gauge.doublemonitor = {
 -- Tag
 ------------------------------------------------------------
 theme.gauge.bluetag = {
-	width    = 103,
+	width    = 16,
 	font     = theme.cf_tag,
-	point    = { width = 80, height = 3, gap = 27, dx = 5 },
-	text_gap = 20,
+	point    = { width = 12, height = 2, gap = 18, dx = 2 },
+	text_gap = 14,
 	color    = theme.color
 }
 
 -- Task (the same widget as tag)
 ------------------------------------------------------------
 theme.gauge.bluetask = {
-	width    = 80,
+	width    = 300,
 	show_min = true,
 	font     = theme.cf_tag,
-	point    = { width = 70, height = 3, gap = 27, dx = 5 },
-	text_gap = 20,
+	point    = { width = 270, height = 2, gap = 18, dx = 5 },
+	text_gap = 14,
 	color    = theme.color
 }
 
@@ -374,7 +374,7 @@ theme.widget.margin = {
 	bat         = { 9, 9, 5, 5 },
 	mail        = { 10, 10, 4, 4 },
 	layoutbox   = { 10, 10, 6, 6 },
-	tray        = { 9, 9, 6, 6 },
+	tray        = { 9, 9, 2, 2 },
 	textclock   = { 12, 12, 0, 0 }
 }
 
@@ -462,15 +462,15 @@ theme.widget.layoutbox.name_alias = {
 -- Tasklist
 ------------------------------------------------------------
 theme.widget.tasklist = {
-	width       = 70,
-	char_digit  = 5,
+	width       = 120,
+	char_digit  = 10,
 	task        = theme.gauge.bluetask
 }
 
 -- main
 theme.widget.tasklist.winmenu = {
 	micon          = theme.icon,
-	titleline      = { font = theme.font_title, height = 30 },
+	titleline      = { font = theme.font_title, height = 18 },
 	menu           = { width = 240, color = { right_icon = theme.color.icon }, ricon_margin = { 9, 9, 9, 9 } },
 	tagmenu        = { width = 180, color = { right_icon = theme.color.icon, left_icon = theme.color.icon } },
 	state_iconsize = { 18, 18 },

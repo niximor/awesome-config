@@ -55,7 +55,7 @@ end
 
 -- Environment
 -----------------------------------------------------------------------------------------------------------------------
-local theme_path = os.getenv("HOME") .. "/.config/awesome/themes/red"
+local theme_path = os.getenv("HOME") .. "/.config/awredflat/themes/red"
 beautiful.init(theme_path .. "/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
